@@ -1,7 +1,7 @@
-<<<<<<< HEAD
+
 # vue
 vue相关
-=======
+
 # vue-test
 
 > A Vue.js project
