@@ -1,37 +1,26 @@
 <template>
   <div class='list'>
-    <button class='addBtn' v-on:click='show'>addItem</button>
+    <el-button type="primary" v-on:click='show' class='addBtn'>addItem</el-button>
     <div class='dialog' v-if='status'>
-      <label>id: </label><input type="text" v-model='id'><br>
       <label>name: </label><input type="text" v-model='name'><br>
       <label>age: </label><input type="text" v-model='age'><br>
       <label>phone: </label><input type="text" v-model='phone'><br>
       <label>address: </label><input type="text" v-model='address'>
-      <button v-on:click='add'>submit</button>
+      <el-button type="primary" v-on:click='add' class='submit'>submit</el-button>
     </div>
-    <div class='table'>
-      <table border='1'>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>age</th>
-            <th>phone</th>
-            <th>address</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for='item in items'>
-            <td>{{ item.id }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.age }}</td>
-            <td>{{ item.phone }}</td>
-            <td>{{ item.address }}</td>
-            <td><span v-on:click='edit(item)'>修改</span>|<span v-on:click='del(item)'>删除</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <el-table :data="items" height="250" border style="width: 100%">
+      <el-table-column type="index" width="60"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+      <el-table-column prop="age" label="年龄"></el-table-column>
+      <el-table-column prop="phone" label="电话"></el-table-column>
+      <el-table-column prop="address" label="地址"></el-table-column>
+      <el-table-column label="操作">
+        <template scope="scope">
+          <el-button size="small" @click="edit(scope.$index, scope.row)">编辑</el-button>
+          <el-button type="danger" size="small" @click="del(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     </div>
   </div>
 </template>
@@ -41,7 +30,6 @@ export default {
   name: 'list',
   data (){ 
     return {
-      id: '',
       name: '',
       age: '',
       phone: '',
@@ -59,34 +47,33 @@ export default {
     },
     add (){
       if(this.isedit == true){
-        this.nitem = {id:this.id, name:this.name, age:this.age, phone:this.phone, address:this.address};        
+        this.nitem = {name:this.name, age:this.age, phone:this.phone, address:this.address};        
         this.items.splice(this.items.indexOf(this.ite),1,this.nitem);
         this.isedit = false;
         this.ite.length = 0;
       }else{
-        this.items.push({id:this.id, name:this.name, age:this.age, phone:this.phone, address:this.address})
+        this.items.push({name:this.name, age:this.age, phone:this.phone, address:this.address})
       }
       this.status = false;
 
-        this.id = '';
         this.name = '';
         this.age = '';
         this.phone = '';
         this.address = '';
     },
-    edit (item){
+    edit (index, row){
+      console.log(index, row)
       this.isedit = true;
       this.status = true;
-      this.id = item.id;
-      this.name = item.name;
-      this.age = item.age;
-      this.phone = item.phone;
-      this.address = item.address;
+      this.name = row.name;
+      this.age = row.age;
+      this.phone = row.phone;
+      this.address = row.address;
       // this.ite = {id:this.id, name:this.name, age:this.age, phone:this.phone, address:this.address}
-      this.ite = item;
+      this.ite = row;
     },
-    del (item){
-      this.items.splice(this.items.indexOf(item),1);
+    del (index, row){
+      this.items.splice(this.items.indexOf(row),1);
     }
   }
 }
@@ -94,13 +81,16 @@ export default {
 
 <style lang='scss'>
   .addBtn {
-    padding: 10px;border: 1px solid;border-radius: 10px;
+    float: right;
   }
   .dialog {
     padding: 20px;border: 10px solid;
+    .submit {
+      background: #475669;color: #fff;
+    }
   }
   .table{
-    margin-top: 20px;padding: 20px;border: 10px solid;
+    margin-top: 30px;padding: 20px;border: 10px solid;
   }
   table {
     border: 1;
