@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+// 输出结果
 export default {
   name: 'home',
   data () {
@@ -47,6 +49,15 @@ export default {
         activeIndex: '1'
     }
   },
+  // mounted () {
+  // 	axios.get('http://v2.ad.oa.alpha.lamaqun.com/Service/Ad/edit_ad',{params : {id : 6809}})
+	 //  .then(function (response) {
+	 //    console.log(response);
+	 //  })
+	 //  .catch(function (error) {
+	 //    console.log(error);
+	 //  });
+  // },
   methods: {
   	handleSelect(key, keyPath) {
         console.log(key, keyPath);

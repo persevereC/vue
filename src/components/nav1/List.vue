@@ -53,6 +53,19 @@
 </template>
 
 <script>
+import moc from 'mockjs'
+console.log(moc)
+var Random = moc.Random
+var datas = moc.mock({
+    'items|10': [
+      { name : Random.cname(),
+        age : parseInt(Math.random()*100),
+        phone: Random.date(),
+        address: Random.county(true)
+      }
+    ]
+})
+console.log(datas)
 export default {
   name: 'list',
   data (){ 
@@ -69,6 +82,9 @@ export default {
       isedit: false,
       formLabelWidth: '120px'
     }
+  },
+  mounted () {
+    this.items = datas.items;
   },
   methods: {
     show (){
