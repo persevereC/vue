@@ -35,7 +35,7 @@
         <el-button type="primary" v-on:click='add' class='submit'>submit</el-button>
       </div>
     </el-dialog>
-    <el-table :data="items" height="550" border style="width: 100%">
+    <el-table :data="items" height="750" border style="width: 100%">
       <el-table-column type="index" width="60"></el-table-column>
       <el-table-column prop="name" label="姓名" width="180"></el-table-column>
       <el-table-column prop="age" label="年龄"></el-table-column>
@@ -56,15 +56,17 @@
 import moc from 'mockjs'
 console.log(moc)
 var Random = moc.Random
-var datas = moc.mock({
-    'items|10': [
-      { name : Random.cname(),
-        age : parseInt(Math.random()*100),
-        phone: Random.date(),
-        address: Random.county(true)
-      }
-    ]
-})
+var datas = [];
+
+for (let i = 0; i < 20; i++) {
+  datas.push(moc.mock({
+    name: moc.Random.cname(),
+    'age|18-60': 1,
+    phone: moc.Random.date(),
+    address: moc.mock('@county(true)'),
+  }));
+}
+ 
 console.log(datas)
 export default {
   name: 'list',
@@ -84,7 +86,7 @@ export default {
     }
   },
   mounted () {
-    this.items = datas.items;
+    this.items = datas;
   },
   methods: {
     show (){
